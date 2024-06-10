@@ -1,6 +1,6 @@
 import csv
 
-file_path = 'employee_data.csv'
+employee_data = 'employee_data.csv'
 
 with open(file_path, 'r') as file:
     employee_data_reader = csv.reader(file)
