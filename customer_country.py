@@ -1,19 +1,18 @@
-import pandas as pd
+import csv
 
-#Load and read file
-customer_csv = 'customers.csv'
-df = pd.read_csv(customer_csv)
+input_file = 'customers.csv'
+output_file = 'customer_country.csv'
 
-#Display file
-df.head()
-
-#Create new file
-new_df = df[['LastName','FirstName', 'Country']].copy()
-new_df['CustomerName'] = new_df['LastName'] + ', ' + new_df['FirstName']
-new_df = new_df[['CustomerName', 'Country']]
-
-country_csv = 'customer_country.csv'
-new_df.to_csv(country_csv, index=False)
-
-#Display new file
-new_df.head()
+with open(input_file, 'r', newline='') as infile:
+    reader = csv.DictReader(infile)
+    fieldnames = ['Last Name', 'First Name', 'Country']
+    
+    with open(output_file,'w', newline='') as outfile:
+        writer = csv.DictWriter(outfile, fieldnames=fieldnames)
+        writer.writeheader()
+        
+        for row in reader:
+            last_name = row['LastName']
+            first_name = row['FirstName']
+            country = row['Country']
+            writer.writerow({'Last Name': last_name, 'First Name': first_name,  'Country': country})
