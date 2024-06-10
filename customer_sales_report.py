@@ -1,18 +1,22 @@
-import pandas as pd
+import csv
 
-# Load and read file
 sales_csv = 'sales.csv'
-df = pd.read_csv(sales_csv)
-
-# Calculate totals
-df['Total'] = df['SubTotal'] + df['TaxAmt'] + df['Freight']
-
-# Sum total by ID group
-salesreport_df = df.groupby('CustomerID', as_index=False)['Total'].sum()
-
-# Create new File
 salesreport_csv = 'salesreport.csv'
-salesreport_df.to_csv(salesreport_csv, index=False)
+customer_totals = {}
 
-# Display new file
-print(salesreport_df.head())
+with open(sales_csv, 'r') as csvfile:
+    csvreader = csv.reader(csvfile)
+    header = next(csvreader)
+    for row in csvreader:
+        customer_id = row[0]
+        total = float(row[3])
+        if customer_id in customer_totals:
+            customer_totals[customer_id] += total
+        else:
+            customer_totals[customer_id] = total
+
+with open(salesreport_csv, 'w', newline='') as csvfile:
+    csvwriter = csv.writer(csvfile)
+    csvwriter.writerow(['CustomerID', 'Total'])
+    for customer_id, total in customer_totals.items():
+        csvwriter.writerow([customer_id, total])
