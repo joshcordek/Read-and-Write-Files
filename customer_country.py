@@ -1,13 +1,13 @@
 import csv
 
-input_file = 'customers.csv'
-output_file = 'customer_country.csv'
+customers = 'customers.csv'
+customer_country = 'customer_country.csv'
 
-with open(input_file, 'r', newline='') as infile:
+with open(customers, 'r', newline='') as infile:
     reader = csv.DictReader(infile)
     fieldnames = ['Last Name', 'First Name', 'Country']
     
-    with open(output_file,'w', newline='') as outfile:
+    with open(customer_country,'w', newline='') as outfile:
         writer = csv.DictWriter(outfile, fieldnames=fieldnames)
         writer.writeheader()
         
